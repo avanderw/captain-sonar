@@ -5,7 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>avdw.java</groupId>
-    <artifactId>captain-sonar-client</artifactId>
+    <artifactId>captain-sonar-protocol</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.2</version>
+        </dependency>
+    </dependencies>
 
     <parent>
         <groupId>avdw.java</groupId>
@@ -26,28 +33,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>avdw.java</groupId>
-            <artifactId>captain-sonar-lib</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>avdw.java</groupId>
-            <artifactId>captain-sonar-protocol</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>LATEST</version>
-        </dependency>
-        <dependency>
-            <groupId>org.tinylog</groupId>
-            <artifactId>tinylog</artifactId>
-            <version>LATEST</version>
-        </dependency>
-    </dependencies>
 
 </project>
