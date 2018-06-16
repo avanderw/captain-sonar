@@ -3,7 +3,7 @@ package avdw.java.captain.sonar.server.network;
 import java.io.IOException;
 import java.net.*;
 
-public class EchoClient {
+class EchoClient {
     private DatagramSocket socket;
     private InetAddress address;
 

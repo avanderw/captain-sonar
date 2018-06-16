@@ -9,7 +9,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-public class EchoServer implements Runnable {
+class EchoServer implements Runnable {
     private DatagramSocket socket;
     private volatile Thread thread;
 

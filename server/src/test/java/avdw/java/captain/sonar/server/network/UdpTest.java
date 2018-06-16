@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class UdpTest {
-    EchoClient client;
+    private EchoClient client;
 
     @Before
     public void setup() throws SocketException, UnknownHostException {
