@@ -55,7 +55,9 @@ public class ServerMain {
             @Override
             public void disconnected (Connection connection) {
                 Logger.debug("disconnected");
+                server.stop();
             }
         });
+
     }
 }
