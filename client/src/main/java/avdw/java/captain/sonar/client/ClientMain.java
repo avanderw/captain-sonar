@@ -1,7 +1,6 @@
 package avdw.java.captain.sonar.client;
 
-import avdw.java.captain.sonar.protocol.TestMessage;
-import com.esotericsoftware.kryo.Kryo;
+import avdw.java.captain.sonar.protocol.Protocol;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -24,27 +23,31 @@ public class ClientMain {
         Client client = new Client();
         client.start();
 
-        Kryo kryo = client.getKryo();
-        kryo.register(TestMessage.class);
+        Protocol.setup(client);
 
         client.addListener(new Listener() {
             @Override
+            public void idle(Connection connection) {
+                Logger.debug("idling");
+            }
+
+            @Override
             public void connected(Connection connection) {
                 Logger.debug("connected");
-                TestMessage request = new TestMessage();
-                request.message = "request";
-                client.sendTCP(request);
+                client.sendTCP("");
+                client.sendTCP("");
+                client.sendTCP("");
             }
 
             @Override
             public void received(Connection connection, Object object) {
                 Logger.debug("received");
-                if (object instanceof TestMessage) {
-                    TestMessage response = (TestMessage) object;
-                    Logger.debug(response.message);
-                } else {
-                    Logger.error("unhandled object");
-                }
+//                if (object instanceof TestMessage) {
+//                    TestMessage response = (TestMessage) object;
+//                    Logger.debug(response.message);
+//                } else {
+//                    Logger.error("unhandled object");
+//                }
             }
 
             @Override

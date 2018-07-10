@@ -1,8 +1,6 @@
 package avdw.java.captain.sonar.protocol;
 
-import avdw.java.captain.sonar.protocol.captain.PlaceShipMessage;
 import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.EndPoint;
 import org.reflections.Reflections;
 
