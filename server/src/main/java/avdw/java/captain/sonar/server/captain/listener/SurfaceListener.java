@@ -8,22 +8,22 @@ import java.lang.Override;
 import org.pmw.tinylog.Logger;
 
 public class SurfaceListener extends Listener {
-  @Override
-  public void connected(Connection connection) {
-    Logger.debug("connected");
-  }
-
-  @Override
-  public void received(Connection connection, Object object) {
-    if (object instanceof SurfaceMessage) {
-      Logger.debug("received");
-      SurfaceMessage request = (SurfaceMessage) object;
-      connection.sendTCP("ack");
+    @Override
+    public void connected(Connection connection) {
+        Logger.debug("connected");
     }
-  }
 
-  @Override
-  public void disconnected(Connection connection) {
-    Logger.debug("disconnected");
-  }
+    @Override
+    public void received(Connection connection, Object object) {
+        if (SurfaceMessage.class.isInstance(object)) {
+            Logger.debug("received");
+            SurfaceMessage request = (SurfaceMessage) object;
+            connection.sendTCP("ack");
+        }
+    }
+
+    @Override
+    public void disconnected(Connection connection) {
+        Logger.debug("disconnected");
+    }
 }

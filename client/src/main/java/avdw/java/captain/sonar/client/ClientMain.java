@@ -1,67 +1,52 @@
 package avdw.java.captain.sonar.client;
 
+import avdw.java.captain.sonar.lib.Config;
 import avdw.java.captain.sonar.protocol.Protocol;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import org.pmw.tinylog.Configurator;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.pmw.tinylog.Level;
 import org.pmw.tinylog.Logger;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.concurrent.TimeUnit;
 
 public class ClientMain {
     public static void main(String[] args) {
-        Configurator.currentConfig()
-                .formatPattern("{date:yyyy-MM-dd HH:mm:ss} [{thread}] {class}.{method}() {level}: {message}")
-                .level(Level.TRACE)
-                .activate();
+        Config.configureLoggers(Level.DEBUG);
 
-        Logger.debug("client");
+        Logger.debug("started");
+        Integer udpPort = 54777;
+        Integer tcpPort = 54555;
+        Integer timeout = 1000;
 
         Client client = new Client();
         client.start();
 
-        Protocol.setup(client);
+        Injector injector = Guice.createInjector(new ClientModule());
+        Protocol.registerMessages(client);
+        Protocol.registerListeners(client, "avdw.java.captain.sonar.client", injector);
 
-        client.addListener(new Listener() {
-            @Override
-            public void idle(Connection connection) {
-                Logger.debug("idling");
+        Logger.debug("discovering host");
+        InetAddress address = client.discoverHost(udpPort, timeout);
+        if (address == null) {
+            Logger.warn(String.format("could not find a host, timeout %sms, UDP port %s", timeout, udpPort));
+        } else {
+            Logger.info(String.format("found host at %s:%s", address.getHostAddress(), udpPort));
+
+            try {
+                client.connect(timeout, address.getHostAddress(), tcpPort, udpPort);
+                TimeUnit.SECONDS.sleep(1);
+                client.stop();
+            } catch (IOException | InterruptedException e) {
+                Logger.warn(String.format("could not connect to host %s", address.getHostAddress()));
+                Logger.error(e);
             }
-
-            @Override
-            public void connected(Connection connection) {
-                Logger.debug("connected");
-                client.sendTCP("");
-                client.sendTCP("");
-                client.sendTCP("");
-            }
-
-            @Override
-            public void received(Connection connection, Object object) {
-                Logger.debug("received");
-//                if (object instanceof TestMessage) {
-//                    TestMessage response = (TestMessage) object;
-//                    Logger.debug(response.message);
-//                } else {
-//                    Logger.error("unhandled object");
-//                }
-            }
-
-            @Override
-            public void disconnected(Connection connection) {
-                Logger.debug("disconnected");
-            }
-        });
-
-        try {
-            client.connect(1000, "127.0.0.1", 54555, 54777);
-            TimeUnit.SECONDS.sleep(1);
-            client.stop();
-        } catch (IOException | InterruptedException e) {
-            Logger.error(e);
         }
+
+        Logger.debug("stopped");
     }
 }

@@ -11,14 +11,14 @@ public class ProtocolTest {
     @Test
     public void test_setupMessages_Successful() {
         Client client = new Client();
-        Protocol.setup(client);
+        Protocol.registerMessages(client);
         assertNotNull(client.getKryo().getRegistration(PlaceShipMessage.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_setupMessages_Exception() {
         Client client = new Client();
-        Protocol.setup(client);
+        Protocol.registerMessages(client);
         assertNotNull(client.getKryo().getRegistration(Protocol.class));
     }
 

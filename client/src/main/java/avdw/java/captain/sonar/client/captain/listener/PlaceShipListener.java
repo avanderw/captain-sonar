@@ -1,4 +1,4 @@
-package avdw.java.captain.sonar.server.captain.listener;
+package avdw.java.captain.sonar.client.captain.listener;
 
 import avdw.java.captain.sonar.protocol.captain.message.PlaceShipMessage;
 import com.esotericsoftware.kryonet.Connection;

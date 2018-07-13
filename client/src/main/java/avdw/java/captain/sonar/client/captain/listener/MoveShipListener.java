@@ -1,13 +1,13 @@
-package avdw.java.captain.sonar.server.captain.listener;
+package avdw.java.captain.sonar.client.captain.listener;
 
-import avdw.java.captain.sonar.protocol.captain.message.PlaceShipMessage;
+import avdw.java.captain.sonar.protocol.captain.message.MoveShipMessage;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import java.lang.Object;
 import java.lang.Override;
 import org.pmw.tinylog.Logger;
 
-public class PlaceShipListener extends Listener {
+public class MoveShipListener extends Listener {
     @Override
     public void connected(Connection connection) {
         Logger.debug("connected");
@@ -15,9 +15,9 @@ public class PlaceShipListener extends Listener {
 
     @Override
     public void received(Connection connection, Object object) {
-        if (PlaceShipMessage.class.isInstance(object)) {
+        if (MoveShipMessage.class.isInstance(object)) {
             Logger.debug("received");
-            PlaceShipMessage request = (PlaceShipMessage) object;
+            MoveShipMessage request = (MoveShipMessage) object;
             connection.sendTCP("ack");
         }
     }
