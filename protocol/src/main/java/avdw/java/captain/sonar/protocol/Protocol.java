@@ -6,8 +6,10 @@ import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
@@ -22,7 +24,15 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class Protocol {
-    public static void registerMessages(EndPoint endPoint) {
+    private EndPoint endPoint;
+    private String basePackage;
+
+    @Inject
+    public Protocol(EndPoint endPoint) {
+        this.endPoint = endPoint;
+    }
+
+    public void registerMessages() {
         Reflections reflections = new Reflections("avdw.java.captain.sonar.protocol");
 
         Kryo kryo = endPoint.getKryo();
@@ -31,7 +41,7 @@ public class Protocol {
         });
     }
 
-    public static void registerListeners(EndPoint endPoint, String basePackage, Injector injector) {
+    public void registerListeners(Injector injector, String basePackage) {
         Reflections reflections = new Reflections(basePackage);
 
         reflections.getSubTypesOf(Listener.class).stream()
