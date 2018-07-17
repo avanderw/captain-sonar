@@ -1,6 +1,6 @@
 package avdw.java.captain.sonar.client.setup.listener;
 
-import avdw.java.captain.sonar.protocol.setup.message.SetupMapMessage;
+import avdw.java.captain.sonar.core.messages.setup.message.SetupMapMessage;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import java.lang.Object;

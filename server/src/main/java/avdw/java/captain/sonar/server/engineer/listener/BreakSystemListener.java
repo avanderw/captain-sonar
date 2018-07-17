@@ -1,6 +1,6 @@
 package avdw.java.captain.sonar.server.engineer.listener;
 
-import avdw.java.captain.sonar.protocol.engineer.message.BreakSystemMessage;
+import avdw.java.captain.sonar.core.messages.engineer.message.BreakSystemMessage;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import java.lang.Object;

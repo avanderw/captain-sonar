@@ -1,6 +1,6 @@
 package avdw.java.captain.sonar.client.captain.listener;
 
-import avdw.java.captain.sonar.protocol.captain.message.SurfaceMessage;
+import avdw.java.captain.sonar.core.messages.captain.message.SurfaceMessage;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import java.lang.Object;

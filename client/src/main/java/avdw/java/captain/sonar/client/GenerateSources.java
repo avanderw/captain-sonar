@@ -1,16 +1,14 @@
 package avdw.java.captain.sonar.client;
 
-import avdw.java.captain.sonar.lib.Config;
-import avdw.java.captain.sonar.protocol.Protocol;
-import org.pmw.tinylog.Configurator;
+import avdw.java.captain.sonar.core.config.StaticConfig;
+import avdw.java.captain.sonar.core.messages.ListenerGenerator;
 import org.pmw.tinylog.Level;
 import org.pmw.tinylog.Logger;
 
 public class GenerateSources {
     public static void main(String[] args) {
-        Config.configureLoggers(Level.DEBUG);
-
-        Protocol.generateListeners(GenerateSources.class.getPackage().getName());
+        StaticConfig.configureLoggers(Level.DEBUG);
+        ListenerGenerator.generateListeners(GenerateSources.class.getPackage().getName());
         Logger.info("done");
     }
 
