@@ -1,22 +1,24 @@
-package avdw.java.captain.sonar.server;
+package avdw.java.captain.sonar.client;
 
 import avdw.java.captain.sonar.core.config.ConfigModule;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 import org.pmw.tinylog.Logger;
 import org.reflections.Reflections;
 
-public class ServerModule extends AbstractModule {
+public class ClientModule extends AbstractModule {
     @Override
     protected void configure() {
         install(new ConfigModule());
 
-        bind(EndPoint.class).to(ServerConnection.class).in(Singleton.class);
+        bind(Integer.class).annotatedWith(Names.named("network-timeout")).toInstance(1000);
+        bind(EndPoint.class).to(ClientConnection.class).in(Singleton.class);
 
-        Reflections modules = new Reflections(String.format("avdw.java.captain.sonar.server"));
+        Reflections modules = new Reflections(String.format("avdw.java.captain.sonar.client"));
         modules.getSubTypesOf(AbstractModule.class).stream()
-                .filter(module -> !module.isAssignableFrom(ServerModule.class))
+                .filter(module -> !module.isAssignableFrom(ClientModule.class))
                 .forEach(module -> {
                     try {
                         install(module.newInstance());

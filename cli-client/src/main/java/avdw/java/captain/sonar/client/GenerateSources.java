@@ -1,4 +1,4 @@
-package avdw.java.captain.sonar.server;
+package avdw.java.captain.sonar.client;
 
 import avdw.java.captain.sonar.core.config.StaticConfig;
 import avdw.java.captain.sonar.core.generator.Generator;
@@ -11,8 +11,11 @@ public class GenerateSources {
 
         Generator generator = new Generator(GenerateSources.class.getPackage().getName());
         generator.generateListeners();
+        generator.generateActions();
         generator.generateEvents();
 
         Logger.info("done");
     }
+
+
 }
