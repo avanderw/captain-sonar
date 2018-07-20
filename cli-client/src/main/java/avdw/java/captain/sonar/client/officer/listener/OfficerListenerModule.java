@@ -9,7 +9,7 @@ import javax.annotation.Generated;
 
 @Generated(
         value = "avdw.java.captain.sonar.core.generator.ListenerGenerator",
-        date = "2018-07-18T13:25:20.645"
+        date = "2018-07-20T15:06:09.419"
 )
 public class OfficerListenerModule extends AbstractModule {
     @Override

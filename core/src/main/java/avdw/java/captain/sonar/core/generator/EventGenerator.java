@@ -1,15 +1,18 @@
 package avdw.java.captain.sonar.core.generator;
 
 import avdw.java.captain.sonar.core.messages.Message;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 import org.pmw.tinylog.Logger;
 import org.reflections.Reflections;
 
+import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 
 class EventGenerator {
     public static void generate(String pckg) {
@@ -23,6 +26,10 @@ class EventGenerator {
 
 
             TypeSpec action = TypeSpec.classBuilder(String.format("%sEvent", message))
+                    .addAnnotation(AnnotationSpec.builder(Generated.class)
+                            .addMember("value", "\"$L\"", ListenerGenerator.class.getName())
+                            .addMember("date", "\"$L\"", LocalDateTime.now().toString())
+                            .build())
                     .addModifiers(Modifier.PUBLIC)
                     .build();
 
@@ -31,13 +38,8 @@ class EventGenerator {
                     .build();
 
             try {
-                if (!Files.exists(Paths.get(String.format("src/main/java/%s",
-                        javaFile.toJavaFileObject().getName())))) {
-                    javaFile.writeTo(Paths.get("src/main/java/"));
-                    Logger.info(String.format("created {src/main/java/%s}", javaFile.toJavaFileObject().getName()));
-                } else {
-                    Logger.debug(String.format("file exists {src/main/java/%s}", javaFile.toJavaFileObject().getName()));
-                }
+                javaFile.writeTo(Paths.get("src/main/java/"));
+                Logger.info(String.format("created {src/main/java/%s}", javaFile.toJavaFileObject().getName()));
             } catch (IOException e) {
                 Logger.error(e);
             }

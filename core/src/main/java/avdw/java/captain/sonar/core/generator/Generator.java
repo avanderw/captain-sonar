@@ -18,4 +18,8 @@ public class Generator {
     public void generateEvents() {
         EventGenerator.generate(aPackage);
     }
+
+    public void generateMenus() {
+        MenuGenerator.generate(aPackage);
+    }
 }

@@ -11,7 +11,8 @@
 
     <modules>
         <module>server</module>
-        <module>client</module>
+        <module>cli-menu</module>
+        <module>cli-client</module>
         <module>core</module>
     </modules>
 

@@ -13,6 +13,7 @@ public class GenerateSources {
         generator.generateListeners();
         generator.generateActions();
         generator.generateEvents();
+        generator.generateMenus();
 
         Logger.info("done");
     }

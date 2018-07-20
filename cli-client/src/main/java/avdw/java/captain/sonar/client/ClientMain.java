@@ -1,13 +1,11 @@
 package avdw.java.captain.sonar.client;
 
 import avdw.java.captain.sonar.core.config.StaticConfig;
-import avdw.java.captain.sonar.core.messages.lobby.message.ConnectMessage;
+import avdw.java.cli.menu.Menu;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.pmw.tinylog.Level;
 import org.pmw.tinylog.Logger;
-
-import java.util.concurrent.TimeUnit;
 
 public class ClientMain {
     public static void main(String[] args) {
@@ -19,12 +17,11 @@ public class ClientMain {
         ClientConnection client = injector.getInstance(ClientConnection.class);
         client.start();
         client.connect();
-        client.sendTCP(injector.getProvider(ConnectMessage.class).get());
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            Logger.error(e);
-        }
+
+        Menu menu = new Menu();
+
+        menu.display();
+
         client.stop();
 
         Logger.debug("stopped");
