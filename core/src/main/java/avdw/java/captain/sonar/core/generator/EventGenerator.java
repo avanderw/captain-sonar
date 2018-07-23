@@ -24,7 +24,6 @@ class EventGenerator {
 
             String message = aClass.getAnnotation(Message.class).value();
 
-
             TypeSpec action = TypeSpec.classBuilder(String.format("%sEvent", message))
                     .addAnnotation(AnnotationSpec.builder(Generated.class)
                             .addMember("value", "\"$L\"", ListenerGenerator.class.getName())

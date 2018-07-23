@@ -4,12 +4,11 @@ import avdw.java.captain.sonar.core.messages.Message;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.Multibinder;
-import com.squareup.javapoet.AnnotationSpec;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.*;
 import org.apache.commons.lang3.StringUtils;
 import org.pmw.tinylog.Logger;
 import org.reflections.Reflections;
@@ -17,6 +16,7 @@ import org.reflections.Reflections;
 import javax.annotation.Generated;
 import javax.lang.model.element.Modifier;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -36,13 +36,24 @@ class ActionGenerator {
 
             String message = aClass.getAnnotation(Message.class).value();
 
+            MethodSpec constructor = MethodSpec.constructorBuilder()
+                    .addAnnotation(Inject.class)
+                    .addParameter(Connection.class, "connection")
+                    .addParameter(ParameterizedTypeName.get(Provider.class, aClass), "messageProvider")
+                    .addStatement("this.connection = connection")
+                    .addStatement("this.messageProvider = messageProvider")
+                    .build();
+
             MethodSpec actionMethod = MethodSpec.methodBuilder(StringUtils.uncapitalize(message))
                     .addModifiers(Modifier.PUBLIC)
-                    .addStatement("throw new $T(\"not yet implemented\")", UnsupportedOperationException.class)
+                    .addStatement("connection.sendTCP(messageProvider.get())")
                     .build();
 
             TypeSpec action = TypeSpec.classBuilder(String.format("%sAction", message))
                     .addModifiers(Modifier.PUBLIC)
+                    .addField(Connection.class, "connection")
+                    .addField(ParameterizedTypeName.get(Provider.class, aClass), "messageProvider")
+                    .addMethod(constructor)
                     .addMethod(actionMethod)
                     .build();
 
