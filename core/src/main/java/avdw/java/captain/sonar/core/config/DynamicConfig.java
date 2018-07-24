@@ -4,7 +4,7 @@ import com.esotericsoftware.minlog.Log;
 import org.pmw.tinylog.Configurator;
 import org.pmw.tinylog.Level;
 
-public class StaticConfig {
+public class DynamicConfig {
     public static void configureLoggers(Level level) {
         switch (level) {
             case TRACE:

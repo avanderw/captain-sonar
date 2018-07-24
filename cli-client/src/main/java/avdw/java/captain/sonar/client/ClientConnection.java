@@ -11,6 +11,7 @@ import org.reflections.Reflections;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Comparator;
 import java.util.Set;
 
 public class ClientConnection extends Client {
@@ -25,9 +26,9 @@ public class ClientConnection extends Client {
         this.timeout = timeout;
 
         final Kryo kryo = getKryo();
-        new Reflections("avdw.java.captain.sonar.core").getTypesAnnotatedWith(Message.class).stream().forEach(aClass -> {
-            kryo.register(aClass);
-        });
+        new Reflections("avdw.java.captain.sonar.core").getTypesAnnotatedWith(Message.class).stream()
+                .sorted(Comparator.comparing(Class::getSimpleName))
+                .forEach(aClass -> kryo.register(aClass));
 
         listeners.stream().forEach(listener -> {
             addListener(listener);

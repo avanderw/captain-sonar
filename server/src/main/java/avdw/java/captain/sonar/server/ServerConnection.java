@@ -10,6 +10,7 @@ import org.pmw.tinylog.Logger;
 import org.reflections.Reflections;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Set;
 
 public class ServerConnection extends Server {
@@ -17,20 +18,20 @@ public class ServerConnection extends Server {
     private final Integer udpPort;
 
     @Inject
-    public ServerConnection(@Named("tcp-port")Integer tcpPort, @Named("udp-port")Integer udpPort, Set<Listener> listeners) {
+    public ServerConnection(@Named("tcp-port") Integer tcpPort, @Named("udp-port") Integer udpPort, Set<Listener> listeners) {
         super();
         this.tcpPort = tcpPort;
         this.udpPort = udpPort;
 
         final Kryo kryo = getKryo();
-        new Reflections("avdw.java.captain.sonar.core").getTypesAnnotatedWith(Message.class).stream().forEach(aClass -> {
-            kryo.register(aClass);
-        });
+        new Reflections("avdw.java.captain.sonar.core").getTypesAnnotatedWith(Message.class).stream()
+                .sorted(Comparator.comparing(Class::getSimpleName))
+                .forEach(aClass -> kryo.register(aClass));
 
         listeners.stream().forEach(listener -> {
-                    addListener(listener);
-                    Logger.debug(String.format("registered %s", listener));
-                });
+            addListener(listener);
+            Logger.debug(String.format("registered %s", listener));
+        });
     }
 
     @Override
