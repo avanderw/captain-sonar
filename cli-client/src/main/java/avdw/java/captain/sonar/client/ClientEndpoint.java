@@ -14,13 +14,13 @@ import java.net.InetAddress;
 import java.util.Comparator;
 import java.util.Set;
 
-public class ClientConnection extends Client {
+public class ClientEndpoint extends Client {
     private final Integer udpPort;
     private final Integer tcpPort;
     private final Integer timeout;
 
     @Inject
-    ClientConnection(@Named("tcp-port")Integer tcpPort, @Named("udp-port")Integer udpPort, @Named("network-timeout") Integer timeout, Set<Listener> listeners) {
+    ClientEndpoint(@Named("tcp-port")Integer tcpPort, @Named("udp-port")Integer udpPort, @Named("network-timeout") Integer timeout, Set<Listener> listeners) {
         this.udpPort = udpPort;
         this.tcpPort = tcpPort;
         this.timeout = timeout;

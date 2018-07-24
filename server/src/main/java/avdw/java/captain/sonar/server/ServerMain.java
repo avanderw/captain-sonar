@@ -13,7 +13,7 @@ public class ServerMain {
 
         Injector injector = Guice.createInjector(new ServerModule());
 
-        ServerConnection serverConnection = injector.getInstance(ServerConnection.class);
-        serverConnection.start();
+        ServerEndpoint serverEndpoint = injector.getInstance(ServerEndpoint.class);
+        serverEndpoint.start();
     }
 }

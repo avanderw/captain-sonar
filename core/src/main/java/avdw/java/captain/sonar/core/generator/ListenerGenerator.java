@@ -45,7 +45,7 @@ class ListenerGenerator {
                     .addParameter(Object.class, "object")
                     .beginControlFlow("if ($T.class.isInstance(object))", aClass)
                     .addStatement("$T.debug(\"received\")", Logger.class)
-                    .addStatement("$T request = ($T) object", aClass, aClass)
+                    .addStatement("$T message = ($T) object", aClass, aClass)
                     .addStatement("connection.sendTCP(\"ack\")")
                     .endControlFlow()
                     .build();

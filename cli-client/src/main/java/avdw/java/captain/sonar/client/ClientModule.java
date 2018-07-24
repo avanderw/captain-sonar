@@ -17,9 +17,9 @@ public class ClientModule extends AbstractModule {
         install(new ConfigModule());
 
         bind(Integer.class).annotatedWith(Names.named("network-timeout")).toInstance(1000);
-        bind(ClientConnection.class).in(Singleton.class);
-        bind(EndPoint.class).to(ClientConnection.class);
-        bind(Connection.class).to(ClientConnection.class);
+        bind(ClientEndpoint.class).in(Singleton.class);
+        bind(EndPoint.class).to(ClientEndpoint.class);
+        bind(Connection.class).to(ClientEndpoint.class);
 
         Reflections reflections = new Reflections(String.format("avdw.java.captain.sonar.client"));
         reflections.getSubTypesOf(AbstractModule.class).stream()

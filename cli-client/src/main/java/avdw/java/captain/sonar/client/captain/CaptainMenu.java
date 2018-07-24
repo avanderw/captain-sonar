@@ -13,47 +13,32 @@ import javax.annotation.Generated;
 
 @Generated(
         value = "avdw.java.captain.sonar.core.generator.ListenerGenerator",
-        date = "2018-07-23T14:45:23.754"
+        date = "2018-07-24T14:57:42.574"
 )
 public class CaptainMenu extends Menu {
-    private MoveShipAction moveShip;
-
-    private ActivateDroneAction activateDrone;
+    private PlaceShipAction placeShip;
 
     private SurfaceAction surface;
 
-    private PlaceShipAction placeShip;
-
-    private ActivateSonarAction activateSonar;
+    private MoveShipAction moveShip;
 
     private ActivateSilentRunningAction activateSilentRunning;
 
+    private ActivateSonarAction activateSonar;
+
+    private ActivateDroneAction activateDrone;
+
     @Inject
-    public CaptainMenu(MoveShipAction moveShip, ActivateDroneAction activateDrone,
-            SurfaceAction surface, PlaceShipAction placeShip, ActivateSonarAction activateSonar,
-            ActivateSilentRunningAction activateSilentRunning) {
+    public CaptainMenu(PlaceShipAction placeShip, SurfaceAction surface, MoveShipAction moveShip,
+            ActivateSilentRunningAction activateSilentRunning, ActivateSonarAction activateSonar,
+            ActivateDroneAction activateDrone) {
         super();
-        this.moveShip = moveShip;
-        this.activateDrone = activateDrone;
-        this.surface = surface;
         this.placeShip = placeShip;
-        this.activateSonar = activateSonar;
+        this.surface = surface;
+        this.moveShip = moveShip;
         this.activateSilentRunning = activateSilentRunning;
-    }
-
-    @Action
-    public void moveShip() {
-        moveShip.moveShip();
-    }
-
-    @Action
-    public void activateDrone() {
-        activateDrone.activateDrone();
-    }
-
-    @Action
-    public void surface() {
-        surface.surface();
+        this.activateSonar = activateSonar;
+        this.activateDrone = activateDrone;
     }
 
     @Action
@@ -62,12 +47,27 @@ public class CaptainMenu extends Menu {
     }
 
     @Action
-    public void activateSonar() {
-        activateSonar.activateSonar();
+    public void surface() {
+        surface.surface();
+    }
+
+    @Action
+    public void moveShip() {
+        moveShip.moveShip();
     }
 
     @Action
     public void activateSilentRunning() {
         activateSilentRunning.activateSilentRunning();
+    }
+
+    @Action
+    public void activateSonar() {
+        activateSonar.activateSonar();
+    }
+
+    @Action
+    public void activateDrone() {
+        activateDrone.activateDrone();
     }
 }

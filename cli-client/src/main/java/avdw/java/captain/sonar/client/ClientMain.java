@@ -9,12 +9,12 @@ import org.pmw.tinylog.Logger;
 
 public class ClientMain {
     public static void main(String[] args) {
-        DynamicConfig.configureLoggers(Level.INFO);
+        DynamicConfig.configureLoggers(Level.DEBUG);
         Logger.debug("started");
 
         Injector injector = Guice.createInjector(new ClientModule());
 
-        ClientConnection client = injector.getInstance(ClientConnection.class);
+        ClientEndpoint client = injector.getInstance(ClientEndpoint.class);
         client.start();
         client.connect();
 
