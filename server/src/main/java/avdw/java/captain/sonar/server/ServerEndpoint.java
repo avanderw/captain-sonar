@@ -49,6 +49,6 @@ public class ServerEndpoint extends Server {
         } catch (IOException e) {
             Logger.error(e);
         }
-        Logger.debug("endpoint exposed");
+        Logger.info(String.format("endpoint exposed on tcp { %s }, udp { %s }", tcpPort, udpPort));
     }
 }

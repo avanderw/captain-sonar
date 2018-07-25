@@ -8,7 +8,7 @@ import org.pmw.tinylog.Logger;
 
 public class ServerMain {
     public static void main(String[] args) {
-        DynamicConfig.configureLoggers(Level.DEBUG);
+        DynamicConfig.configureLoggers(Level.INFO);
         Logger.debug("started");
 
         Injector injector = Guice.createInjector(new ServerModule());

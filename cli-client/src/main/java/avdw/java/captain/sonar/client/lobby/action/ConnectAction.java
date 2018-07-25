@@ -17,7 +17,6 @@ public class ConnectAction {
     }
 
     public void connect() {
-        System.out.println(connection.getClass());
         connection.sendTCP(messageProvider.get());
     }
 }
