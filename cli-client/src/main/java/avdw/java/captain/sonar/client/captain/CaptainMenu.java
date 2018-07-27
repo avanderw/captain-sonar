@@ -13,7 +13,7 @@ import javax.annotation.Generated;
 
 @Generated(
         value = "avdw.java.captain.sonar.core.generator.ListenerGenerator",
-        date = "2018-07-24T14:57:42.574"
+        date = "2018-07-27T10:04:48.070"
 )
 public class CaptainMenu extends Menu {
     private PlaceShipAction placeShip;
@@ -22,23 +22,23 @@ public class CaptainMenu extends Menu {
 
     private MoveShipAction moveShip;
 
-    private ActivateSilentRunningAction activateSilentRunning;
-
     private ActivateSonarAction activateSonar;
 
     private ActivateDroneAction activateDrone;
 
+    private ActivateSilentRunningAction activateSilentRunning;
+
     @Inject
     public CaptainMenu(PlaceShipAction placeShip, SurfaceAction surface, MoveShipAction moveShip,
-            ActivateSilentRunningAction activateSilentRunning, ActivateSonarAction activateSonar,
-            ActivateDroneAction activateDrone) {
+            ActivateSonarAction activateSonar, ActivateDroneAction activateDrone,
+            ActivateSilentRunningAction activateSilentRunning) {
         super();
         this.placeShip = placeShip;
         this.surface = surface;
         this.moveShip = moveShip;
-        this.activateSilentRunning = activateSilentRunning;
         this.activateSonar = activateSonar;
         this.activateDrone = activateDrone;
+        this.activateSilentRunning = activateSilentRunning;
     }
 
     @Action
@@ -57,11 +57,6 @@ public class CaptainMenu extends Menu {
     }
 
     @Action
-    public void activateSilentRunning() {
-        activateSilentRunning.activateSilentRunning();
-    }
-
-    @Action
     public void activateSonar() {
         activateSonar.activateSonar();
     }
@@ -69,5 +64,10 @@ public class CaptainMenu extends Menu {
     @Action
     public void activateDrone() {
         activateDrone.activateDrone();
+    }
+
+    @Action
+    public void activateSilentRunning() {
+        activateSilentRunning.activateSilentRunning();
     }
 }
