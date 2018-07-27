@@ -6,7 +6,9 @@ import org.reflections.ReflectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Menu {
     Scanner scanner = new Scanner(System.in);
@@ -32,7 +34,15 @@ public class Menu {
 
                 if (item.action.isPresent()) {
                     try {
-                        item.action.get().invoke(item.context.get());
+                        List<Object> args = new ArrayList();
+                        Method method = item.action.get();
+                        Arrays.stream(method.getParameters()).forEach(parameter -> {
+                            if (String.class.equals(parameter.getType())) {
+                                System.out.print(String.format("%s > ", parameter.getType().getSimpleName()));
+                                args.add(scanner.next());
+                            }
+                        });
+                        item.action.get().invoke(item.context.get(), args.toArray());
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         Logger.info(e);
                     }
@@ -70,7 +80,10 @@ public class Menu {
     private void addActionsFrom(Object object) {
         ReflectionUtils.getAllMethods(object.getClass(), ReflectionUtils.withAnnotation(Action.class)).stream()
                 .forEach(action -> {
-                    itemMap.put(itemMap.size() + 1, new Item(String.format("%s.%s", object.getClass().getSimpleName(), action.getName()), object, action));
+                    String parameters = Arrays.stream(action.getParameters())
+                            .map(parameter -> parameter.getType().getSimpleName())
+                            .collect(Collectors.joining(", "));
+                    itemMap.put(itemMap.size() + 1, new Item(String.format("%s.%s(%s)", object.getClass().getSimpleName(), action.getName(), parameters), object, action));
                 });
     }
 

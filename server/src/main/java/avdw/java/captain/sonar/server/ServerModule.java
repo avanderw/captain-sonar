@@ -12,7 +12,8 @@ public class ServerModule extends AbstractModule {
     protected void configure() {
         install(new ConfigModule());
 
-        bind(EndPoint.class).to(ServerEndpoint.class).in(Singleton.class);
+        bind(ServerEndpoint.class).in(Singleton.class);
+        bind(EndPoint.class).to(ServerEndpoint.class);
 
         Reflections modules = new Reflections(String.format("avdw.java.captain.sonar.server"));
         modules.getSubTypesOf(AbstractModule.class).stream()

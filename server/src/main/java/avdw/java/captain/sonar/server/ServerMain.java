@@ -15,5 +15,10 @@ public class ServerMain {
 
         ServerEndpoint serverEndpoint = injector.getInstance(ServerEndpoint.class);
         serverEndpoint.start();
+
+        ServerMenu menu = injector.getInstance(ServerMenu.class);
+        menu.display();
+
+        serverEndpoint.stop();
     }
 }

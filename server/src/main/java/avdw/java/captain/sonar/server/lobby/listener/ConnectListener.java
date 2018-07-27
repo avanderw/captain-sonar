@@ -16,7 +16,7 @@ public class ConnectListener extends Listener {
     public void connected(Connection connection) {
         Logger.debug("connected");
         ServerConnection conn = (ServerConnection) connection;
-        Logger.info(String.format("%s: %s connected", conn.getID(), conn.name));
+        Logger.info(String.format("%s connected", conn.getRemoteAddressTCP()));
         ServerEndpoint server = (ServerEndpoint) connection.getEndPoint();
         server.sendToAllTCP(new ConnectMessage());
     }
@@ -33,5 +33,7 @@ public class ConnectListener extends Listener {
     @Override
     public void disconnected(Connection connection) {
         Logger.debug("disconnected");
+        ServerConnection conn = (ServerConnection) connection;
+        Logger.info(String.format("%s disconnected", conn.name));
     }
 }

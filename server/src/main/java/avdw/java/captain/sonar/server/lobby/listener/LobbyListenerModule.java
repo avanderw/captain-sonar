@@ -9,14 +9,16 @@ import javax.annotation.Generated;
 
 @Generated(
         value = "avdw.java.captain.sonar.core.generator.ListenerGenerator",
-        date = "2018-07-24T14:59:32.616"
+        date = "2018-07-27T10:05:04.675"
 )
 public class LobbyListenerModule extends AbstractModule {
     @Override
     public void configure() {
+        bind(RegisterNameListener.class).in(Singleton.class);
         bind(ConnectListener.class).in(Singleton.class);
 
         Multibinder<Listener> listenerBinder = Multibinder.newSetBinder(binder(), Listener.class);
+        listenerBinder.addBinding().to(RegisterNameListener.class);
         listenerBinder.addBinding().to(ConnectListener.class);
     }
 }
