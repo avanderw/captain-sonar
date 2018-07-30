@@ -27,6 +27,7 @@ public class ClientEndpoint extends Client {
         this.tcpPort = tcpPort;
         this.timeout = timeout;
 
+        // TODO: extract into core, from server and client
         final Kryo kryo = getKryo();
         kryo.register(ArrayList.class);
         new Reflections("avdw.java.captain.sonar.core").getTypesAnnotatedWith(Message.class).stream()
