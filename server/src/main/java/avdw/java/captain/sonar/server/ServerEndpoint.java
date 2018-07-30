@@ -12,6 +12,8 @@ import org.reflections.Reflections;
 
 import javax.management.MBeanServerConnection;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Set;
 
@@ -26,9 +28,15 @@ public class ServerEndpoint extends Server {
         this.udpPort = udpPort;
 
         final Kryo kryo = getKryo();
+        kryo.register(ArrayList.class);
         new Reflections("avdw.java.captain.sonar.core").getTypesAnnotatedWith(Message.class).stream()
                 .sorted(Comparator.comparing(Class::getSimpleName))
-                .forEach(aClass -> kryo.register(aClass));
+                .forEach(aClass -> {
+                    kryo.register(aClass);
+                    Arrays.stream(aClass.getClasses())
+                            .sorted(Comparator.comparing(Class::getSimpleName))
+                            .forEach(bClass -> kryo.register(bClass));
+                });
 
         listeners.stream().forEach(listener -> {
             addListener(listener);

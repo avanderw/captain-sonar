@@ -11,6 +11,8 @@ import org.reflections.Reflections;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Set;
 
@@ -20,15 +22,21 @@ public class ClientEndpoint extends Client {
     private final Integer timeout;
 
     @Inject
-    ClientEndpoint(@Named("tcp-port")Integer tcpPort, @Named("udp-port")Integer udpPort, @Named("network-timeout") Integer timeout, Set<Listener> listeners) {
+    ClientEndpoint(@Named("tcp-port") Integer tcpPort, @Named("udp-port") Integer udpPort, @Named("network-timeout") Integer timeout, Set<Listener> listeners) {
         this.udpPort = udpPort;
         this.tcpPort = tcpPort;
         this.timeout = timeout;
 
         final Kryo kryo = getKryo();
+        kryo.register(ArrayList.class);
         new Reflections("avdw.java.captain.sonar.core").getTypesAnnotatedWith(Message.class).stream()
                 .sorted(Comparator.comparing(Class::getSimpleName))
-                .forEach(aClass -> kryo.register(aClass));
+                .forEach(aClass -> {
+                    kryo.register(aClass);
+                    Arrays.stream(aClass.getClasses())
+                            .sorted(Comparator.comparing(Class::getSimpleName))
+                            .forEach(bClass -> kryo.register(bClass));
+                });
 
         listeners.stream().forEach(listener -> {
             addListener(listener);

@@ -7,18 +7,41 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import java.lang.Object;
 import java.lang.Override;
+import java.util.Arrays;
 
 import com.esotericsoftware.kryonet.Server;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import org.pmw.tinylog.Logger;
 
 public class ConnectListener extends Listener {
+    private Provider<ConnectMessage> connectMessageProvider;
+
+    @Inject
+    ConnectListener(Provider<ConnectMessage> connectMessageProvider) {
+        this.connectMessageProvider = connectMessageProvider;
+    }
+
     @Override
     public void connected(Connection connection) {
         Logger.debug("connected");
         ServerConnection conn = (ServerConnection) connection;
-        Logger.info(String.format("%s connected", conn.getRemoteAddressTCP()));
+        Logger.info(String.format("client-%s %s connected", conn.getID(), conn.getRemoteAddressTCP()));
         ServerEndpoint server = (ServerEndpoint) connection.getEndPoint();
-        server.sendToAllTCP(new ConnectMessage());
+
+        ConnectMessage message = connectMessageProvider.get();
+        message.clientId = connection.getID();
+        message.clientName = ((ServerConnection)connection).name;
+        Arrays.stream(((ServerEndpoint) connection.getEndPoint()).getConnections())
+                .map(existingConn->(ServerConnection)existingConn)
+                .forEach(existingConn-> {
+                    ConnectMessage.ClientData clientData =new ConnectMessage.ClientData( );
+                    clientData.id = existingConn.getID();
+                    clientData.name = existingConn.name;
+                    message.alreadyConnected.add(clientData);
+                });
+
+        server.sendToAllTCP(message);
     }
 
     @Override
@@ -34,6 +57,6 @@ public class ConnectListener extends Listener {
     public void disconnected(Connection connection) {
         Logger.debug("disconnected");
         ServerConnection conn = (ServerConnection) connection;
-        Logger.info(String.format("%s disconnected", conn.name));
+        Logger.info(String.format("client-%s (%s) disconnected", conn.getID(), conn.name));
     }
 }

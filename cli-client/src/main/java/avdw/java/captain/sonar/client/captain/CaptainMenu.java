@@ -13,47 +13,32 @@ import javax.annotation.Generated;
 
 @Generated(
         value = "avdw.java.captain.sonar.core.generator.ListenerGenerator",
-        date = "2018-07-27T10:04:48.070"
+        date = "2018-07-30T12:42:27.419"
 )
 public class CaptainMenu extends Menu {
-    private PlaceShipAction placeShip;
-
-    private SurfaceAction surface;
-
-    private MoveShipAction moveShip;
-
     private ActivateSonarAction activateSonar;
 
     private ActivateDroneAction activateDrone;
 
+    private MoveShipAction moveShip;
+
+    private PlaceShipAction placeShip;
+
     private ActivateSilentRunningAction activateSilentRunning;
 
+    private SurfaceAction surface;
+
     @Inject
-    public CaptainMenu(PlaceShipAction placeShip, SurfaceAction surface, MoveShipAction moveShip,
-            ActivateSonarAction activateSonar, ActivateDroneAction activateDrone,
-            ActivateSilentRunningAction activateSilentRunning) {
+    public CaptainMenu(ActivateSonarAction activateSonar, ActivateDroneAction activateDrone,
+            MoveShipAction moveShip, PlaceShipAction placeShip,
+            ActivateSilentRunningAction activateSilentRunning, SurfaceAction surface) {
         super();
-        this.placeShip = placeShip;
-        this.surface = surface;
-        this.moveShip = moveShip;
         this.activateSonar = activateSonar;
         this.activateDrone = activateDrone;
+        this.moveShip = moveShip;
+        this.placeShip = placeShip;
         this.activateSilentRunning = activateSilentRunning;
-    }
-
-    @Action
-    public void placeShip() {
-        placeShip.placeShip();
-    }
-
-    @Action
-    public void surface() {
-        surface.surface();
-    }
-
-    @Action
-    public void moveShip() {
-        moveShip.moveShip();
+        this.surface = surface;
     }
 
     @Action
@@ -67,7 +52,22 @@ public class CaptainMenu extends Menu {
     }
 
     @Action
+    public void moveShip() {
+        moveShip.moveShip();
+    }
+
+    @Action
+    public void placeShip() {
+        placeShip.placeShip();
+    }
+
+    @Action
     public void activateSilentRunning() {
         activateSilentRunning.activateSilentRunning();
+    }
+
+    @Action
+    public void surface() {
+        surface.surface();
     }
 }

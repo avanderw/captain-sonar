@@ -1,5 +1,6 @@
 package avdw.java.captain.sonar.client;
 
+import avdw.java.captain.sonar.client.lobby.LobbyModule;
 import avdw.java.captain.sonar.core.config.ConfigModule;
 import avdw.java.cli.menu.Menu;
 import com.esotericsoftware.kryonet.Connection;
