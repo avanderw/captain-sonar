@@ -1,0 +1,3 @@
+[submodule "StateMachine"]
+	path = statemachine
+	url = https://github.com/avanderw/statemachine.git
