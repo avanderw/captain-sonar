@@ -1,8 +1,11 @@
 package avdw.java.captain.sonar.server.lobby.listener;
 
+import avdw.java.captain.sonar.core.messages.captain.message.ActivateDroneMessage;
 import avdw.java.captain.sonar.core.messages.lobby.message.ConnectMessage;
+import avdw.java.captain.sonar.core.messages.lobby.message.DisconnectMessage;
 import avdw.java.captain.sonar.server.ServerConnection;
 import avdw.java.captain.sonar.server.ServerEndpoint;
+import avdw.java.captain.sonar.server.captain.event.ActivateDroneEvent;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import java.lang.Object;
@@ -57,6 +60,9 @@ public class ConnectListener extends Listener {
     public void disconnected(Connection connection) {
         Logger.debug("disconnected");
         ServerConnection conn = (ServerConnection) connection;
+        DisconnectMessage disconnectMessage = new DisconnectMessage();
+        disconnectMessage.id = conn.getID();
+        ((ServerEndpoint) connection.getEndPoint()).sendToAllTCP(disconnectMessage);
         Logger.info(String.format("client-%s (%s) disconnected", conn.getID(), conn.name));
     }
 }

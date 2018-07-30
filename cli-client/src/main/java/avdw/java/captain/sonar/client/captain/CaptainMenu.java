@@ -13,32 +13,32 @@ import javax.annotation.Generated;
 
 @Generated(
         value = "avdw.java.captain.sonar.core.generator.ListenerGenerator",
-        date = "2018-07-30T12:42:27.419"
+        date = "2018-07-30T16:16:00.616"
 )
 public class CaptainMenu extends Menu {
     private ActivateSonarAction activateSonar;
 
-    private ActivateDroneAction activateDrone;
-
     private MoveShipAction moveShip;
+
+    private SurfaceAction surface;
+
+    private ActivateDroneAction activateDrone;
 
     private PlaceShipAction placeShip;
 
     private ActivateSilentRunningAction activateSilentRunning;
 
-    private SurfaceAction surface;
-
     @Inject
-    public CaptainMenu(ActivateSonarAction activateSonar, ActivateDroneAction activateDrone,
-            MoveShipAction moveShip, PlaceShipAction placeShip,
-            ActivateSilentRunningAction activateSilentRunning, SurfaceAction surface) {
+    public CaptainMenu(ActivateSonarAction activateSonar, MoveShipAction moveShip,
+            SurfaceAction surface, ActivateDroneAction activateDrone, PlaceShipAction placeShip,
+            ActivateSilentRunningAction activateSilentRunning) {
         super();
         this.activateSonar = activateSonar;
-        this.activateDrone = activateDrone;
         this.moveShip = moveShip;
+        this.surface = surface;
+        this.activateDrone = activateDrone;
         this.placeShip = placeShip;
         this.activateSilentRunning = activateSilentRunning;
-        this.surface = surface;
     }
 
     @Action
@@ -47,13 +47,18 @@ public class CaptainMenu extends Menu {
     }
 
     @Action
-    public void activateDrone() {
-        activateDrone.activateDrone();
+    public void moveShip() {
+        moveShip.moveShip();
     }
 
     @Action
-    public void moveShip() {
-        moveShip.moveShip();
+    public void surface() {
+        surface.surface();
+    }
+
+    @Action
+    public void activateDrone() {
+        activateDrone.activateDrone();
     }
 
     @Action
@@ -64,10 +69,5 @@ public class CaptainMenu extends Menu {
     @Action
     public void activateSilentRunning() {
         activateSilentRunning.activateSilentRunning();
-    }
-
-    @Action
-    public void surface() {
-        surface.surface();
     }
 }
