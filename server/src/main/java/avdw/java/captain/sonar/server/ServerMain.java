@@ -8,6 +8,10 @@ import org.pmw.tinylog.Logger;
 
 public class ServerMain {
     public static void main(String[] args) {
+        create();
+    }
+
+    public static void create() {
         DynamicConfig.configureLoggers(Level.INFO);
         Logger.debug("started");
 

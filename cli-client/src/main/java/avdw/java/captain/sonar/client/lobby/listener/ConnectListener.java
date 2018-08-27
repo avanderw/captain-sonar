@@ -36,5 +36,6 @@ public class ConnectListener extends Listener {
     @Override
     public void disconnected(Connection connection) {
         Logger.info("disconnected");
+        throw new UnsupportedOperationException("disconnection handling not implemented");
     }
 }

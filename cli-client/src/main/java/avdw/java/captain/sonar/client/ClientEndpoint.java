@@ -1,5 +1,6 @@
 package avdw.java.captain.sonar.client;
 
+import avdw.java.captain.sonar.client.exception.ClientConnectException;
 import avdw.java.captain.sonar.core.messages.Message;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
@@ -10,6 +11,7 @@ import org.pmw.tinylog.Logger;
 import org.reflections.Reflections;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,11 +47,13 @@ public class ClientEndpoint extends Client {
         });
     }
 
-    public void connect() {
+    public void connect() throws ClientConnectException {
         Logger.debug("discovering host");
         InetAddress address = discoverHost(udpPort, timeout);
         if (address == null) {
-            Logger.warn(String.format("could not find a host, timeout %sms, UDP port %s", timeout, udpPort));
+            String message = String.format("could not find a host, timeout %sms, UDP port %s", timeout, udpPort);
+            Logger.warn(message);
+            throw new ClientConnectException(message);
         } else {
             Logger.info(String.format("found host at %s:%s", address.getHostAddress(), udpPort));
 
