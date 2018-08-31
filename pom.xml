@@ -15,6 +15,7 @@
         <module>cli-client</module>
         <module>core</module>
         <module>captain-sonar-launcher</module>
+        <module>captain-sonar-board</module>
     </modules>
 
     <properties>

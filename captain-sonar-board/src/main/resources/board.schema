@@ -1,0 +1,32 @@
+{
+  "type" : "object",
+  "id" : "urn:jsonschema:avdw:java:captain:sonar:board:Board",
+  "properties" : {
+    "name" : {
+      "type" : "string",
+      "required" : true
+    },
+    "boardCellList" : {
+      "type" : "array",
+      "required" : true,
+      "items" : {
+        "type" : "object",
+        "id" : "urn:jsonschema:avdw:java:captain:sonar:board:BoardCell",
+        "properties" : {
+          "row" : {
+            "type" : "integer",
+            "required" : true
+          },
+          "col" : {
+            "type" : "integer",
+            "required" : true
+          },
+          "isLand" : {
+            "type" : "boolean",
+            "required" : true
+          }
+        }
+      }
+    }
+  }
+}
